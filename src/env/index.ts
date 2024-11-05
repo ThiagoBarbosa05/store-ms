@@ -9,6 +9,10 @@ const envSchema = z.object({
   REDIS_PORT: z.coerce.number(),
   KAFKA_CLIENT_ID: z.string(),
   KAFKA_BROKER: z.string(),
+  PUB_SUB_PRIVATE_KEY: z.string(),
+  PUB_SUB_CLIENT_EMAIL: z.string(),
+  PUB_SUB_PROJECT_ID: z.string(),
+  MESSAGING_TOPIC: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

@@ -10,6 +10,8 @@ import { AddressPresenter } from "./presenters/address-presenter";
 import { AddressRepositoryImpl } from "./repositories/address-repository-impl";
 import { OrderServiceFactory } from "./factories/order-service-factory";
 import { MessagingProviderImpl } from "./providers/messaging-provider-impl";
+import { PubSubGcp } from "./providers/pub-sub-gcp";
+import { env } from "./env";
 
 const app = express();
 
@@ -249,7 +251,7 @@ app.post("/orders", authMiddleware, async (req: Request, res: Response) => {
     const cartFactory = cartServiceFactory();
     const cart = await cartFactory.getCart(customer.id);
     const orderFactory = OrderServiceFactory();
-    const messaging = new MessagingProviderImpl();
+    const messaging = new PubSubGcp();
 
     const order = await orderFactory.createOrder({
       addressId,
@@ -261,7 +263,7 @@ app.post("/orders", authMiddleware, async (req: Request, res: Response) => {
     });
 
     if (order) {
-      await messaging.send("orders", [
+      await messaging.send(env.MESSAGING_TOPIC, [
         {
           key: order.customerId,
           value: JSON.stringify({

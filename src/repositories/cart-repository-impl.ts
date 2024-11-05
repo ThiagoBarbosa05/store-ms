@@ -12,6 +12,7 @@ export class CartRepositoryImpl implements CartRepository {
     this._client = new Redis({
       host: env.REDIS_HOST,
       port: env.REDIS_PORT,
+      family: 0,
     });
     this._redisKey = env.REDIS_CART_PREFIX;
   }

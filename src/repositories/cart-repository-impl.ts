@@ -9,11 +9,14 @@ export class CartRepositoryImpl implements CartRepository {
   private _redisKey: string;
 
   constructor() {
-    this._client = new Redis({
-      host: env.REDIS_HOST,
-      port: env.REDIS_PORT,
-      family: 0,
-    });
+    // const options = process.env.REDIS_URL
+    //   ? `${process.env.REDIS_URL}?family=0`
+    //   : {
+    //       host: env.REDIS_HOST,
+    //       port: env.REDIS_PORT,
+    //       family: 0,
+    //     };
+    this._client = new Redis(`${env.REDIS_URL}?family=0`);
     this._redisKey = env.REDIS_CART_PREFIX;
   }
 

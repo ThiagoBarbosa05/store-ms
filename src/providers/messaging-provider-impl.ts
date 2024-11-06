@@ -8,7 +8,7 @@ export class MessagingProviderImpl implements MessagingProvider {
   constructor() {
     this._client = new Kafka({
       clientId: env.KAFKA_CLIENT_ID,
-      brokers: [env.KAFKA_BROKER],
+      brokers: [env.KAFKA_BROKER ?? ""],
     });
   }
 
